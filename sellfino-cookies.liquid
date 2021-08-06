@@ -37,10 +37,14 @@
     color: {{ section.settings.color_confirmation_button_text }};
   {% endcapture %}
 
+  {% capture 'style__sllf-cookies__text' %}
+    color: {{ section.settings.color_text }};
+  {% endcapture %}
+
   <style>
     .sllf-cookies { {{ style__sllf-cookies | strip_newlines | strip | remove: '  ' }} }
     .sllf-cookies__wrapper { {{ style__sllf-cookies__wrapper | strip_newlines | strip | remove: '  ' }} }
-    .sllf-cookies__text { {{ style__sllf-cookies__text | strip_newlines | strip | remove: '  ' }} }
+    .sllf-cookies__wrapper a { {{ style__sllf-cookies__text | strip_newlines | strip | remove: '  ' }} }
     .sllf-cookies__button { {{ style__sllf-cookies__button | strip_newlines | strip | remove: '  ' }} }
   </style>
 
@@ -115,15 +119,15 @@
         "type": "select",
         "id": "style",
         "label": "Style",
-        "default": "bar",
+        "default": "card",
         "options": [
-          {
-            "value": "bar",
-            "label": "Bar"
-          },
           {
             "value": "card",
             "label": "Card"
+          },
+          {
+            "value": "bar",
+            "label": "Bar"
           }
         ]
       },
@@ -179,7 +183,7 @@
         "type": "text",
         "id": "card_max_width",
         "label": "Max Width",
-        "default": "300px"
+        "default": "500px"
       },
       {
         "type": "header",
@@ -293,7 +297,7 @@
         acceptButton = this.q('.sllf-cookies__button'),
         rejectButton = this.q('.sllf-cookies__close');
 
-      banner.style.display = 'block';
+      this.banner.style.display = 'block';
 
       acceptButton.addEventListener('click', function (e) {
         e.preventDefault();
@@ -313,8 +317,7 @@
       return localStorage.getItem(this.cookieName) === 'true';
     },
     removeBanner: function () {
-      var banner = this.q('.sllf-cookies');
-      banner.style.display = 'none';
+      this.banner.style.display = 'none';
     }
   }
 
