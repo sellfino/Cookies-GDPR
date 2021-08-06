@@ -1,0 +1,322 @@
+{% if section.settings.active %}
+  {% capture 'style__sllf-cookies' %}
+    {% if section.settings.style == 'bar' %}
+      width:100%; left:0;
+      {% if section.settings.bar_placement == 'bottom' %}
+        bottom: 0;
+      {% else %}
+        top: 0;
+      {% endif %}
+    {% else %}
+      max-width: {{ section.settings.card_max_width }}; 
+      {% case section.settings.card_placement %}
+          {% when 'bottom_left' %}
+            bottom: 0; left: 0;
+          {% when 'bottom_right' %}
+            bottom: 0; right: 0;
+          {% when 'top_right' %}
+            top: 0; right: 0;
+          {% when 'top_left' %}
+            top: 0; left: 0;
+        {% endcase %}
+    {% endif %}
+    {% if section.settings.margin != '' %}
+      padding: {{ section.settings.margin }};
+    {% else %}
+      padding: 0;
+    {% endif %}
+  {% endcapture %}
+
+  {% capture 'style__sllf-cookies__wrapper' %}
+    background: {{ section.settings.color_background }};
+    color: {{ section.settings.color_text }};
+  {% endcapture %}
+
+  {% capture 'style__sllf-cookies__button' %}
+    background: {{ section.settings.color_confirmation_button }};
+    color: {{ section.settings.color_confirmation_button_text }};
+  {% endcapture %}
+
+  <style>
+    .sllf-cookies { {{ style__sllf-cookies | strip_newlines | strip | remove: '  ' }} }
+    .sllf-cookies__wrapper { {{ style__sllf-cookies__wrapper | strip_newlines | strip | remove: '  ' }} }
+    .sllf-cookies__text { {{ style__sllf-cookies__text | strip_newlines | strip | remove: '  ' }} }
+    .sllf-cookies__button { {{ style__sllf-cookies__button | strip_newlines | strip | remove: '  ' }} }
+  </style>
+
+  <div class="sllf-cookies {% if section.settings.style == 'card' %}sllf-cookies--card{% endif %}" {% if section.settings.preview %}style="display:block"{% endif %} {% if section.settings.geolocation == 'yes' %}data-geo{% endif %}>
+    <div class="sllf-cookies__wrapper">
+      <div class="sllf-cookies__text">
+        {{ section.settings.text }}
+      </div>
+      <span class="sllf-cookies__button">
+        {{ section.settings.confirmation_button_text }}
+      </span>
+      <span class="sllf-cookies__close">
+        <svg fill="{{ section.settings.color_close }}" enable-background="new 0 0 413.348 413.348" height="512" viewBox="0 0 413.348 413.348" width="512" xmlns="http://www.w3.org/2000/svg"><path d="m413.348 24.354-24.354-24.354-182.32 182.32-182.32-182.32-24.354 24.354 182.32 182.32-182.32 182.32 24.354 24.354 182.32-182.32 182.32 182.32 24.354-24.354-182.32-182.32z"/></svg>
+      </span>
+    </div>
+  </div>
+{% endif %}
+
+{% schema %}
+  {
+    "name": "Sellfino :: Cookies GDPR",
+    "settings": [
+      {
+        "type": "header",
+        "content": "General"
+      },
+      {
+        "type": "checkbox",
+        "id": "active",
+        "label": "Active",
+        "default": true
+      },
+      {
+        "type": "richtext",
+        "id": "text",
+        "label": "Text",
+        "default": "<p>This website uses cookies to ensure you get the best experience on our website. <a href=\"\">Learn more</a></p>"
+      },
+      {
+        "type": "text",
+        "id": "confirmation_button_text",
+        "label": "Confirmation Button Text",
+        "default": "Got It"
+      },
+      {
+        "type": "select",
+        "id": "geolocation",
+        "label": "Geolocation",
+        "default": "no",
+        "options": [
+          {
+            "value": "no",
+            "label": "No (all countries)"
+          },
+          {
+            "value": "yes",
+            "label": "Yes (only EU countries)"
+          }
+        ]
+      },
+      {
+        "type": "header",
+        "content": "Layout"
+      },
+      {
+        "type": "text",
+        "id": "margin",
+        "label": "Margin",
+        "default": "10px"
+      },
+      {
+        "type": "select",
+        "id": "style",
+        "label": "Style",
+        "default": "bar",
+        "options": [
+          {
+            "value": "bar",
+            "label": "Bar"
+          },
+          {
+            "value": "card",
+            "label": "Card"
+          }
+        ]
+      },
+      {
+        "type": "header",
+        "content": "Bar Settings"
+      },
+      {
+        "type": "select",
+        "id": "bar_placement",
+        "label": "Bar Placement",
+        "default": "bottom",
+        "options": [
+          {
+            "value": "bottom",
+            "label": "Bottom"
+          },
+          {
+            "value": "top",
+            "label": "Top"
+          }
+        ]
+      },
+      {
+        "type": "header",
+        "content": "Card Settings"
+      },
+      {
+        "type": "select",
+        "id": "card_placement",
+        "label": "Card Placement",
+        "default": "bottom_left",
+        "options": [
+          {
+            "value": "bottom_left",
+            "label": "Bottom Left"
+          },
+          {
+            "value": "bottom_right",
+            "label": "Bottom Right"
+          },
+          {
+            "value": "top_right",
+            "label": "Top Right"
+          },
+          {
+            "value": "top_left",
+            "label": "Top Left"
+          }
+        ]
+      },
+      {
+        "type": "text",
+        "id": "card_max_width",
+        "label": "Max Width",
+        "default": "300px"
+      },
+      {
+        "type": "header",
+        "content": "Colors"
+      },
+      {
+        "type": "color",
+        "id": "color_background",
+        "label": "Background",
+        "default": "#FFF"
+      },
+      {
+        "type": "color",
+        "id": "color_text",
+        "label": "Text",
+        "default": "#000"
+      },
+      {
+        "type": "color",
+        "id": "color_confirmation_button",
+        "label": "Confirmation Button Background",
+        "default": "#18A95E"
+      },
+      {
+        "type": "color",
+        "id": "color_confirmation_button_text",
+        "label": "Confirmation Button Text",
+        "default": "#FFF"
+      },
+      {
+        "type": "color",
+        "id": "color_close",
+        "label": "Close",
+        "default": "#CE1948"
+      },
+      {
+        "type": "header",
+        "content": "Preview"
+      },
+      {
+        "type": "checkbox",
+        "id": "preview",
+        "label": "Always show Cookies GDPR",
+        "default": false,
+        "info": "Only for testing and configuring. Turn it off for production."
+      }
+    ]
+  }
+{% endschema %}
+
+{% stylesheet %}
+  .sllf-cookies { display: none; position: fixed; z-index: 999; }
+  .sllf-cookies__wrapper { background: #FFF; border-radius: 5px; box-shadow: 0px 0px 6px rgba(0,0,0,.1); padding: 10px; display: flex; flex-wrap: wrap; flex: 0 1 auto; flex-direction: row; justify-content: space-between; align-items: center;}
+  .sllf-cookies__text { width: 85%; flex-basis: 85%; flex-grow: 0.85; }
+  .sllf-cookies__text p { padding: 0; margin: 0; }
+  .sllf-cookies__text a { text-decoration: none!important; border-bottom: 1px solid; }
+  .sllf-cookies__button { text-align: center; cursor: pointer; padding: 5px 25px; display: inline-block; width: 10%; flex-basis: 10%; flex-grow: 0.1; white-space: nowrap; }
+  .sllf-cookies__close { text-align: center; cursor: pointer; padding: 8px 0; display: inline-block; width: 5%; flex-basis: 5%; flex-grow: 0.05; line-height: 16px; }
+  .sllf-cookies__close svg { width: 16px; height: 16px; }
+  .sllf-cookies.sllf-cookies--card .sllf-cookies__text { margin-bottom: 10px; }
+  .sllf-cookies.sllf-cookies--card .sllf-cookies__button { width: 70%; flex-basis: 70%; flex-grow: 0.7; }
+  .sllf-cookies.sllf-cookies--card .sllf-cookies__close { width: 10%; flex-basis: 10%; flex-grow: 0.1; }
+{% endstylesheet %}
+
+{% comment %}
+  Script code based on Cookies-EU-banner of Alex-D. https://github.com/Alex-D/Cookies-EU-banner
+{% endcomment %}
+{% javascript %}
+  Sellfino_CookiesGDPR = function() {
+    this.bots = /bot|crawler|spider|crawling/i;
+    this.cookieName = 'Sellfino_CookieGDPR_hasConsent';
+    this.redirect = 'https://www.google.com';
+    this.banner = this.q('.sllf-cookies');
+    if (this.banner) this.init();
+  }
+
+  Sellfino_CookiesGDPR.prototype = {
+    init: function () {
+      var _this = this,
+          checkGeo = this.q('.sllf-cookies[data-geo]'),
+          isBot = this.bots.test(navigator.userAgent),
+          dnt = navigator.doNotTrack || navigator.msDoNotTrack || window.doNotTrack,
+          isToTrack = (dnt !== null && dnt !== undefined) ? (dnt && dnt !== 'yes' && dnt !== 1 && dnt !== '1') : true;
+
+      if (isBot || !isToTrack || this.hasConsent() === true) {
+        return false;
+      }
+      
+      if (checkGeo) {
+        this.request('https://freegeoip.app/json/', function(e) {
+          var result = JSON.parse(e.target.response);
+          if (result.time_zone.indexOf('Europe') !== -1) {
+            _this.showBanner();
+          }
+        });
+      } else {
+        this.showBanner();
+      }
+    },
+    q: function(element) {
+      return document.querySelector(element);
+    },
+    request: function(url, callback, method = 'get') {
+      var xhr = new XMLHttpRequest(); 
+      xhr.onload = callback;
+      xhr.open(method, url);  
+      xhr.send();
+    },
+    showBanner: function () {
+      var _this = this,
+        acceptButton = this.q('.sllf-cookies__button'),
+        rejectButton = this.q('.sllf-cookies__close');
+
+      banner.style.display = 'block';
+
+      acceptButton.addEventListener('click', function (e) {
+        e.preventDefault();
+        _this.removeBanner();
+        _this.setConsent(true);
+      });
+
+      rejectButton.addEventListener('click', function (e) {
+        e.preventDefault();
+        location.href = this.redirect;
+      });
+    },
+    setConsent: function (consent) {
+      return localStorage.setItem(this.cookieName, consent);
+    },
+    hasConsent: function () {
+      return localStorage.getItem(this.cookieName) === 'true';
+    },
+    removeBanner: function () {
+      var banner = this.q('.sllf-cookies');
+      banner.style.display = 'none';
+    }
+  }
+
+  new Sellfino_CookiesGDPR();
+{% endjavascript %}
